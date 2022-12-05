@@ -1,0 +1,46 @@
+﻿@model CadeteriaWeb.ViewModels.CadeteViewModel
+
+@{
+    ViewData["Title"] = "Dar de baja un cadete activo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Confirmar baja del cadete.</h3>
+<div>
+    <h4>Cadete</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Direccion)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Direccion)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Telefono)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Telefono)
+        </dd>
+    </dl>
+    
+    <form asp-action="ConfirmarBaja" asp-controller="Cadete">
+        <input type="hidden" name="id" value=@Model.Id />
+        <input type="submit" value="Dar de baja" class="btn btn-danger" /> |
+        <a asp-action="Index" asp-controller="Cadete">Volver</a>
+    </form>
+</div>
