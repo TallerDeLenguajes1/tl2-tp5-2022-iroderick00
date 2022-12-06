@@ -8,16 +8,17 @@ namespace CadeteriaWeb.Controllers
 {
     public class CadeteController : Controller
     {
-        private static CadeteRepositorio _cadeteRepositorio = new CadeteRepositorio();
         private readonly ILogger<CadeteController> _logger;
         private IMapper _mapper;
+        private ICadeteRepositorio _cadeteRepositorio;
 
-        public CadeteController(ILogger<CadeteController> logger, IMapper mapper)
+        public CadeteController(ILogger<CadeteController> logger, IMapper mapper, ICadeteRepositorio cadeteRepositorio)
         {
             _logger = logger;
             _mapper = mapper;
+            _cadeteRepositorio = cadeteRepositorio;
         }
-        public IActionResult Index()
+        public IActionResult Listar()
         {
             var cadetes = _cadeteRepositorio.GetCadetes();
             var listaCadetesVM = _mapper.Map<List<CadeteViewModel>>(cadetes);
@@ -35,7 +36,7 @@ namespace CadeteriaWeb.Controllers
             {
                 var cadete = _mapper.Map<Cadete>(cadeteVM);
                 _cadeteRepositorio.AltaCadete(cadete);
-                return RedirectToAction("Index");
+                return RedirectToAction("Listar");
             }
             else
             {
@@ -44,26 +45,25 @@ namespace CadeteriaWeb.Controllers
         }
         public IActionResult EditarCadete(int id)
         {
-            var cadetes = _cadeteRepositorio.GetCadetes();
-            var cadeteAEditar = cadetes.Find(x => x.Id == id);
+            var cadeteAEditar = _cadeteRepositorio.GetCadetePorId(id);
             var cadeteVM = _mapper.Map<CadeteViewModel>(cadeteAEditar);
-            if (cadeteAEditar != null)
+            if (ModelState.IsValid)
             {
                 return View(cadeteVM);
             }
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Listar");
             }
         }
         [HttpPost]
-        public IActionResult EditarCadete(CadeteViewModel cadeteVM) 
+        public IActionResult EditarCadete(CadeteViewModel cadeteVM)
         {
             if (ModelState.IsValid)
             {
                 var cadete = _mapper.Map<Cadete>(cadeteVM);
                 _cadeteRepositorio.EditarCadete(cadete);
-                return RedirectToAction("Index");
+                return RedirectToAction("Listar");
             }
             else
             {
@@ -72,22 +72,21 @@ namespace CadeteriaWeb.Controllers
         }
         public IActionResult DarBajaCadete(int id)
         {
-            var cadetes = _cadeteRepositorio.GetCadetes();
-            var cadeteADarDeBaja = cadetes.Find(x => x.Id == id);
-            var cadeteVM = _mapper.Map<CadeteViewModel>(cadeteADarDeBaja);
-            if (cadeteADarDeBaja != null)
+            var cadeteABorrar = _cadeteRepositorio.GetCadetePorId(id);
+            var cadeteVM = _mapper.Map<CadeteViewModel>(cadeteABorrar);
+            if (ModelState.IsValid)
             {
                 return View(cadeteVM);
             }
             else
             {
-                return View("Index");
+                return RedirectToAction("Listar");
             }
         }
         public RedirectResult ConfirmarBaja(int id)
         {
             _cadeteRepositorio.BajaCadete(id);
-            return Redirect("Index");
+            return Redirect("Listar");
         }
     }
 }

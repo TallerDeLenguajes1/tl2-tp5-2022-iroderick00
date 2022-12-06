@@ -1,3 +1,5 @@
+using CadeteriaWeb.Repositorios;
+
 namespace CadeteriaWeb
 {
     public class Program
@@ -10,6 +12,8 @@ namespace CadeteriaWeb
             builder.Services.AddControllersWithViews();
             //mapeo
             builder.Services.AddAutoMapper(typeof(Program));
+            //inyeccion de dependencias
+            builder.Services.AddTransient<ICadeteRepositorio, CadeteRepositorio>();
 
             var app = builder.Build();
 
