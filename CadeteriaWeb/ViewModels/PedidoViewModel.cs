@@ -6,12 +6,12 @@ namespace CadeteriaWeb.ViewModels
 {
     public class PedidoViewModel
     {
-        private Repositorios.CadeteRepositorio repositorio = new Repositorios.CadeteRepositorio();
+        private Repositorios.CadeteRepositorio repositorio = new();
         private int id;
         private int? idCadete;
         private int? idCliente;
         private string observacion;
-        private string estado;
+        private int estado;
 
         [Required]
         public int Id { get => id; set => id = value; }
@@ -37,6 +37,6 @@ namespace CadeteriaWeb.ViewModels
         [Required]
         public string Observacion { get => observacion; set => observacion = value; }
         [Required]
-        public string Estado { get => estado; set => estado = value; }
+        public int Estado { get => estado; set => estado = value; }
     }
 }
