@@ -3,6 +3,7 @@ using CadeteriaWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using CadeteriaWeb.Repositorios;
 using CadeteriaWeb.ViewModels;
+using Microsoft.AspNetCore.Session;
 
 namespace CadeteriaWeb.Controllers
 {
