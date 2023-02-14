@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Bienvenido/a " + Context.Session.GetString("Nombre");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="text-center title-custom">
+    <section class="container position-absolute top-50 start-50 translate-middle">
+        <div class="row mb-3">
+            <h1 class="col text-center title-custom mb-2">@ViewData["Title"]</h1>
+        </div>
+        <ul class="list-group">
+            @{
+                if (Context.Session.GetInt32("IdCadete") != null)
+                {
+                    <li class="list-group-item mb-2 li-custom">Cadete número: @Context.Session.GetInt32("IdCadete")</li>
+                    <li class="list-group-item mb-2 li-custom">Rol: CADETE</li>
+                }
+                if (@Context.Session.GetInt32("Rol") == 1)
+                {
+                    <li class="list-group-item mb-2 li-custom">Rol: ADMINISTRADOR</li>
+                }
+            }
+            <li class="list-group-item mb-2 li-custom">Usuario número: @Context.Session.GetInt32("IdUsuario")</li>
+            <li class="list-group-item mb-2 li-custom">Nombre de usuario: @Context.Session.GetString("Usuario")</li>
+            <li class="list-group-item mb-2 li-custom">Nombre registrado: @Context.Session.GetString("Nombre")</li>
+
+        </ul>
+    </section>
+</section>

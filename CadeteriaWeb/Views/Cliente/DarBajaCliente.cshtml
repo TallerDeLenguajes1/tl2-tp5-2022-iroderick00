@@ -1,0 +1,54 @@
+﻿@model CadeteriaWeb.ViewModels.ClienteViewModel
+
+@{
+    ViewData["Title"] = "Dar de baja un cliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-4 position-absolute top-50 start-50 translate-middle">
+    <h1>@ViewData["Title"]</h1>
+
+<h3>Confirmar baja del cliente.</h3>
+<div>
+    <h4>Cadete</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Direccion)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Direccion)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Telefono)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Telefono)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ReferenciaDireccion)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ReferenciaDireccion)
+        </dd>
+    </dl>
+    
+    <form asp-action="ConfirmarBaja" asp-controller="Cliente">
+        <input type="hidden" name="id" value=@Model.Id />
+        <input type="submit" value="Dar de baja" class="btn btn-danger" /> |
+            <a class="btn btn-custom" asp-action="Listar" asp-controller="Cliente">Volver</a>
+    </form>
+</div>
+</div>

@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Iniciar sesión";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <div class="position-absolute top-50 start-50 translate-middle">
+        <div class="row mb-3">
+        <h1 class="col text-center title-custom">@ViewData["Title"]</h1>
+        </div>
+        <hr />
+        <div class="d-flex justify-content-center align-middle">
+            <form class="d-grid gap-3 mb-3 p-3 form-custom" asp-action="LogIn" asp-controller="Usuarios" method="post">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                            <i class="fa-solid fa-user mb-2"></i>
+                        </span>
+                        </div>
+                    <input class="form-control mb-2 border-bottom" type="text" name="user" placeholder="Usuario" />
+                </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                            <i class="fa-sharp fa-solid fa-lock mb-2"></i>
+                        </span>
+                        </div>
+                        <input class="form-control" type="password" name="pass" placeholder="Contraseña" />
+                    </div>
+                </div>
+                    <input type="submit" value="Entrar" class="btn btn-primary btn-block mb-2" />
+            </form>
+        </div>
+    </div>
