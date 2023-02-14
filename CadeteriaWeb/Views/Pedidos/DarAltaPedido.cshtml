@@ -2,46 +2,57 @@
 
 @{
     ViewData["Title"] = "Dar de alta nuevo pedido";
+    List<SelectListItem> cadetesDisponibles = (List<SelectListItem>)ViewBag.cadetesDisponibles;
+    List<SelectListItem> clientesDisponibles = (List<SelectListItem>)ViewBag.clientesDisponibles;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>@ViewData["Title"]</h1>
-
-<h4>Pedido</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="DarAltaPedido" asp-controller="Pedidos" method="post">
+    <div class="col-md-4 position-absolute top-50 start-50 translate-middle">
+        <div class="row mb-3">
+            <h1 class="col text-center title-custom">@ViewData["Title"]</h1>
+        </div>
+        <hr />
+        <form class="d-grid gap-3 mb-3 p-3 form-custom asp-action="DarAltaPedido" asp-controller="Pedidos" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="IdCadete" class="control-label"></label>
-                <input asp-for="IdCadete" class="form-control" />
-                <span asp-validation-for="IdCadete" class="text-danger"></span>
-            </div>
+            @if (Context.Session.GetInt32("Rol") == 1)
+            {
+                <div class="form-group">
+                    <label asp-for="IdCadete" class="control-label"></label>
+                    @Html.DropDownList("IdCadete",cadetesDisponibles,"Seleccione un cadete", new { @class="form-select"})
+                    <span asp-validation-for="IdCadete" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="IdCadete" class="control-label"></label>
+                    <select id="IdCadete" name="IdCadete" class="form-select" disabled>
+                        <option value="@Context.Session.GetInt32("IdCadete")">@Context.Session.GetString("Nombre")</option>
+                    </select>
+                    <span asp-validation-for="IdCadete" class="text-danger"></span>
+                </div>
+            }
             <div class="form-group">
                 <label asp-for="IdCliente" class="control-label"></label>
-                <input asp-for="IdCliente" class="form-control" />
+                @Html.DropDownList("IdCliente",clientesDisponibles,"Seleccione un cliente", new { @class="form-select" })
                 <span asp-validation-for="IdCliente" class="text-danger"></span>
+            </div>
+            <div>
+                <a class="btn btn-custom" asp-action="DarAltaCliente" asp-controller="Cliente">Crear cliente</a>
             </div>
             <div class="form-group">
                 <label asp-for="Observacion" class="control-label"></label>
-                <input asp-for="Observacion" class="form-control" />
+                <input asp-for="Observacion" class="form-control"/>
                 <span asp-validation-for="Observacion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Estado" class="control-label"></label>
-                <input asp-for="Estado" class="form-control" />
-                <span asp-validation-for="Estado" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Crear pedido" class="btn btn-primary" />
             </div>
         </form>
+        <div>
+            <a class="btn btn-custom" asp-action="Listar" asp-controller="Pedidos">Volver</a>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Listar" asp-controller="Pedidos">Volver</a>
 </div>
 
 @section Scripts {

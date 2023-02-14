@@ -10,6 +10,8 @@ namespace CadeteriaWeb
         {
             CreateMap<Cadete, CadeteViewModel>().ReverseMap();
             CreateMap<Pedido, PedidoViewModel>().ReverseMap();
+            CreateMap<Pedido, ListarPedidosViewModel>().ReverseMap();
+            CreateMap<Cliente, ClienteViewModel>().ReverseMap();
         }
     }
 }

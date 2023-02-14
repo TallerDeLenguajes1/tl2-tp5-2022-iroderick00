@@ -1,4 +1,5 @@
-﻿using CadeteriaWeb.Models;
+﻿using CadeteriaWeb.Interfaces;
+using CadeteriaWeb.Models;
 using Microsoft.Data.Sqlite;
 
 namespace CadeteriaWeb.Repositorios
@@ -6,14 +7,13 @@ namespace CadeteriaWeb.Repositorios
     public class CadeteRepositorio : ICadeteRepositorio
     {
         private readonly string cadenaConexion = "Data Source=DB/CadeteriaDB.db;Cache=Shared";
-
         public CadeteRepositorio() { }
-        public List<Cadete> GetCadetes() 
+        public List<Cadete> GetCadetes()
         {
             try
             {
                 var cadetes = new List<Cadete>();
-                var query = "SELECT * FROM Cadetes WHERE estado = 1";
+                var query = "SELECT * FROM Cadetes";
                 using (var connection = new SqliteConnection(cadenaConexion))
                 {
                     connection.Open();
@@ -24,23 +24,25 @@ namespace CadeteriaWeb.Repositorios
                         while (reader.Read())
                         {
                             var cadete = new Cadete();
-                            cadete.Id = Convert.ToInt32(reader["id"]);
+                            cadete.Id = Convert.ToInt32(reader["id_cadete"]);
                             cadete.Nombre = reader["nombre"].ToString();
                             cadete.Direccion = reader["direccion"].ToString();
                             cadete.Telefono = reader["telefono"].ToString();
+                            cadete.IdUsuario = Convert.ToInt32(reader["id_usuario"]);
+                            cadete.Estado = Convert.ToInt32(reader["estado"]);
                             cadetes.Add(cadete);
                         }
                     }
                     connection.Close();
                 }
-                return cadetes; 
+                return cadetes;
             }
             catch (Exception)
             {
-                return new List<Cadete>();
+                throw;
             }
         }
-        public Cadete GetCadetePorId (int idCadete)
+        public Cadete GetCadetePorId(int idCadete)
         {
             try
             {
@@ -60,6 +62,7 @@ namespace CadeteriaWeb.Repositorios
                             cadete.Nombre = reader["nombre"].ToString();
                             cadete.Direccion = reader["direccion"].ToString();
                             cadete.Telefono = reader["telefono"].ToString();
+                            cadete.IdUsuario = Convert.ToInt32(reader["id_usuario"]);
                         }
                     }
                     connection.Close();
@@ -68,14 +71,46 @@ namespace CadeteriaWeb.Repositorios
             }
             catch (Exception)
             {
-                return new Cadete();
+                throw;
             }
         }
-        public void AltaCadete(string nombre, string direccion, string telefono)
+        public Cadete GetCadetePorIdUsuario(int idUsuario)
         {
             try
             {
-                var query = $"INSERT INTO Cadetes (nombre, direccion, telefono) VALUES (@nombre,@direccion,@telefono)";
+                var cadete = new Cadete();
+                var query = "SELECT * FROM Cadetes WHERE id_usuario = @idUsuario";
+                using (var connection = new SqliteConnection(cadenaConexion))
+                {
+                    connection.Open();
+                    var command = new SqliteCommand(query, connection);
+                    command.Parameters.Add(new SqliteParameter("@idUsuario", idUsuario));
+
+                    using (SqliteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            cadete.Id = Convert.ToInt32(reader["id_cadete"]);
+                            cadete.Nombre = reader["nombre"].ToString();
+                            cadete.Direccion = reader["direccion"].ToString();
+                            cadete.Telefono = reader["telefono"].ToString();
+                            cadete.IdUsuario = Convert.ToInt32(reader["id_usuario"]);
+                        }
+                    }
+                    connection.Close();
+                }
+                return cadete;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public void AltaCadete(string nombre, string direccion, string telefono, int idUsuario)
+        {
+            try
+            {
+                var query = $"INSERT INTO Cadetes (nombre, direccion, telefono, id_usuario) VALUES (@nombre,@direccion,@telefono,@idUsuario)";
                 using (var connection = new SqliteConnection(cadenaConexion))
                 {
 
@@ -86,6 +121,7 @@ namespace CadeteriaWeb.Repositorios
                     command.Parameters.Add(new SqliteParameter("@nombre", nombre));
                     command.Parameters.Add(new SqliteParameter("@direccion", direccion));
                     command.Parameters.Add(new SqliteParameter("@telefono", telefono));
+                    command.Parameters.Add(new SqliteParameter("@idUsuario", idUsuario));
 
                     command.ExecuteNonQuery();
 
@@ -94,14 +130,14 @@ namespace CadeteriaWeb.Repositorios
             }
             catch (Exception)
             {
-
+                throw;
             }
         }
         public void AltaCadete(Cadete cadete)
         {
             try
             {
-                var query = $"INSERT INTO Cadetes (nombre, direccion, telefono) VALUES (@nombre,@direccion,@telefono)";
+                var query = $"INSERT INTO Cadetes (nombre, direccion, telefono, id_usuario) VALUES (@nombre,@direccion,@telefono,@idUsuario)";
                 using (var connection = new SqliteConnection(cadenaConexion))
                 {
 
@@ -112,6 +148,7 @@ namespace CadeteriaWeb.Repositorios
                     command.Parameters.Add(new SqliteParameter("@nombre", cadete.Nombre));
                     command.Parameters.Add(new SqliteParameter("@direccion", cadete.Direccion));
                     command.Parameters.Add(new SqliteParameter("@telefono", cadete.Telefono));
+                    command.Parameters.Add(new SqliteParameter("@idUsuario", cadete.IdUsuario));
 
                     command.ExecuteNonQuery();
 
@@ -120,7 +157,7 @@ namespace CadeteriaWeb.Repositorios
             }
             catch (Exception)
             {
-
+                throw;
             }
         }
         public void EditarCadete(Cadete cadeteDatos)
@@ -147,7 +184,7 @@ namespace CadeteriaWeb.Repositorios
             }
             catch (Exception)
             {
-
+                throw;
             }
         }
         public void BajaCadete(int idCadete)
@@ -170,7 +207,7 @@ namespace CadeteriaWeb.Repositorios
             }
             catch (Exception)
             {
-
+                throw;
             }
         }
     }

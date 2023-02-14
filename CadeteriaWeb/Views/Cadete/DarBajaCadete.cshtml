@@ -4,10 +4,10 @@
     ViewData["Title"] = "Dar de baja un cadete activo";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>@ViewData["Title"]</h1>
-
+<div class="col-md-4 position-absolute top-50 start-50 translate-middle">
+    <h1>@ViewData["Title"]</h1>
 <h3>Confirmar baja del cadete.</h3>
+<p>Esta acción también borrará el usuario del cadete.</p>
 <div>
     <h4>Cadete</h4>
     <hr />
@@ -41,6 +41,8 @@
     <form asp-action="ConfirmarBaja" asp-controller="Cadete">
         <input type="hidden" name="id" value=@Model.Id />
         <input type="submit" value="Dar de baja" class="btn btn-danger" /> |
-        <a asp-action="Index" asp-controller="Cadete">Volver</a>
+            <a class="btn btn-custom" asp-action="Listar" asp-controller="Cadete">Volver</a>
     </form>
+</div>
+
 </div>

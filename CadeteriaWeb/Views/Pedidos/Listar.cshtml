@@ -2,16 +2,17 @@
 
 @{
     ViewData["Title"] = "Listado de pedidos";
+    ViewData["Rol"] = Context.Session.GetString("Rol");
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class"">@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="DarAltaPedido" asp-controller="Pedidos">Dar de alta un pedido</a>
+    <a class="btn btn-custom" asp-action="DarAltaPedido" asp-controller="Pedidos">Dar de alta un pedido</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-custom">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Id)
@@ -20,12 +21,21 @@
                 @Html.DisplayNameFor(model => model.IdCadete)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.NombreCadete)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreCliente)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Observacion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Estado)
+                @Html.DisplayNameFor(model => model.EstadoDescripcion)
             </th>
-            <th></th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -38,15 +48,26 @@
                 @Html.DisplayFor(modelItem => item.IdCadete)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.NombreCadete)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdCliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreCliente)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Observacion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Estado)
+                @Html.DisplayFor(modelItem => item.EstadoDescripcion)
             </td>
             <td>
-                @Html.ActionLink("Editar", "EditarPedido", "Pedidos",  new { id=item.Id }) |
-            @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
-                    @Html.ActionLink("Borrar", "DarBajaPedido", "Pedidos", new { id=item.Id })
+                    @Html.ActionLink("Editar", "EditarPedido", "Pedidos",  new { id=item.Id}, new { @class="btn btn-secondary"})
+                @if (item.EstadoId != 5)
+                {
+                    @Html.ActionLink("Cancelar", "DarBajaPedido", "Pedidos", new { id = item.Id }, new { @class="btn btn-danger"})
+                }
             </td>
         </tr>
 }

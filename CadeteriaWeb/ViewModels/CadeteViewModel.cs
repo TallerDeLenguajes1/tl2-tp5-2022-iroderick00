@@ -11,6 +11,7 @@ namespace CadeteriaWeb.ViewModels
         private string nombre;
         private string direccion;
         private string telefono;
+        private int estado;
 
         [Required]
         public int Id { get => id; set => id = value; }
@@ -21,6 +22,7 @@ namespace CadeteriaWeb.ViewModels
         [Required]
         [Phone]
         public string Telefono { get => telefono; set => telefono = value; }
+        public int Estado { get => estado; set => estado = value; }
     }
 }
  

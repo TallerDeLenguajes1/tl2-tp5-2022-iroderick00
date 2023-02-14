@@ -5,13 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="title-custom">@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="DarAltaCadete" asp-controller="Cadete">Dar de alta un cadete</a>
+    <a class="btn btn-custom" asp-action="DarAltaCadete" asp-controller="Cadete">Dar de alta un cadete</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped table-hover">
+    <thead class="thead-custom">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Id)
@@ -25,7 +25,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Telefono)
             </th>
-            <th></th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -44,9 +44,9 @@
                 @Html.DisplayFor(modelItem => item.Telefono)
             </td>
             <td>
-                @Html.ActionLink("Editar", "EditarCadete", "Cadete", new { id=item.Id }) |
-                @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
-                @Html.ActionLink("Borrar", "DarBajaCadete", "Cadete", new { id=item.Id})
+                @Html.ActionLink("Todos los pedidos", "ListarPor", "Pedidos", new { entidad = 1, id=item.Id}, new { @class="btn btn-primary"})
+                    @Html.ActionLink("Editar", "EditarCadete", "Cadete", new { id=item.Id }, new { @class="btn btn-secondary"})
+                    @Html.ActionLink("Borrar", "DarBajaCadete", "Cadete", new { id=item.Id}, new { @class="btn btn-danger"})
             </td>
         </tr>
 }

@@ -7,24 +7,46 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CadeteriaWeb.styles.css" asp-append-version="true" />
+    <script src="https://kit.fontawesome.com/c2f9e9bab7.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom mb-3 navbar-custom">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-action="Index" asp-controller="Home">CadeteriaWeb</a>
+                <a class="navbar-brand link-header" asp-area="" asp-controller="Usuarios" asp-action="Index">CadeteriaWeb</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cadete" asp-action="Listar">Cadetes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pedidos" asp-action="Listar">Pedidos</a>
-                        </li>
+                    <ul class="navbar-nav flex-grow-1" style="color:white;">
+                        @if (Context.Session.GetInt32("Rol") == 1)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link link-header" asp-area="" asp-controller="Cadete" asp-action="Listar">Cadetes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link link-header" asp-area="" asp-controller="Cliente" asp-action="Listar">Clientes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link link-header" asp-area="" asp-controller="Pedidos" asp-action="Listar">Pedidos</a>
+                            </li>
+                        }
+                        @if (Context.Session.GetInt32("Rol") == 2)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link link-header" asp-area="" asp-controller="Pedidos" asp-action="Listar">Mis pedidos</a>
+                            </li>
+                        }
+                    </ul>
+                    <ul class="navbar-nav flex-grow-2">
+                        @if (Context.Session.GetInt32("Rol") != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link d-inline-block link-header" asp-area="" asp-controller="Usuarios" asp-action="LogOut">Salir de @Context.Session.GetString("Usuario")</a>
+                                <i class="fa-solid fa-right-from-bracket d-inline-block"></i>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -36,9 +58,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted footer-custom" style="background-color:#FFF8E7;">
         <div class="container">
-            &copy; 2022 - CadeteriaWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 - CadeteriaWeb
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
